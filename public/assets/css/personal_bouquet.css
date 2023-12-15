@@ -1,0 +1,223 @@
+.personal_bouquet_main {
+     margin: 0rem 5rem;
+}
+
+.personal_bouquet_hedaer {
+     background: url(../images/fond-bouquet-sur-mesure.jpg);
+     padding: 12rem;
+    background-position: center;
+    background-size: cover;
+}
+
+.h2-bouquetPersonalisé {
+    text-align: center;
+    font-family: var(--font-family-primary);
+    font-size: 3.5rem;
+    padding: 2rem;
+}
+
+.h1-bouquetPersonalisé {
+    text-align: center;
+    font-family: var(--font-family-primary);
+    font-size: 5rem;
+    padding: 2rem;
+}
+
+.bouquetPersonnalisé-forme {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bouquet-personnalise-rond {
+    background: url(../images/bouquet_rond.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+
+.bouquet-personnalise-champetre {
+    background: url(../images/bouquet_champetre.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+
+.input-bouquet-personnalise {
+    visibility: hidden;
+}
+
+.bouquet-personnalise-label {
+    font-family: var(--font-family-primary);
+    color: var(--primary);
+    font-size: 3rem;
+    border: 5px solid var(--primary);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.bouquet-personnalise-label:hover {
+    background-color: rgb(224, 241, 255);
+    box-shadow: 5px 5px 15px var(--primary),
+    -5px -5px 15px var(--primary);
+    transition: 0.3s;
+}
+
+.input-bouquet-personnalise:checked + .bouquet-personnalise-label {
+    background-color: var(--primary);
+    color: white;
+    border: 5px solid white;
+    box-shadow: 5px 5px 10px grey,
+    -5px -5px 10px rgb(204, 204, 204)
+}
+
+.bouquetPersonnalise-couleur {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bouquet-personnalise-rouge {
+    background: red;
+    padding: 5rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+.bouquet-personnalise-orange {
+    background: rgb(255, 136, 0);
+    padding: 5rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+.bouquet-personnalise-pink {
+    background: pink;
+    padding: 5rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+.bouquet-personnalise-jaune {
+    background: yellow;
+    padding: 5rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+.bouquet-personnalise-blanc {
+    background: white;
+    padding: 5rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+
+.bouquet-personnalise-rose {
+    background: url(../images/rose.jpg);
+    padding: 8rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+
+.bouquet-personnalise-dahlia {
+    background: url(../images/dahlia.jpg);
+    padding: 8rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+
+.bouquetPersonnalise-fleurs {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bouquetPersonnalise-herbe {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bouquet-personnalise-fougere {
+    background: url(../images/fougere.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+.bouquet-personnalise-eucalyptus {
+    background: url(../images/eucalyptus.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+
+.bouquet-personnalise-button {
+    background-color: var(--primary);
+    color: white;
+    font-family: var(--font-family-primary);
+    font-size: 2rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 5px solid var(--primary);
+    margin: 3rem 40%;
+}
+
+.bouquet-personnalise-formulaire {
+    display: flex;
+    flex-direction: column;
+}
+
+.bouquet-personnalise-button:hover {
+    background-color: white;
+    color: var(--primary);
+    transition: 0.3s;
+}
+
+.bouquetPersonnalise-fleurs-segondaire {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bouquet-personnalise-tulipe {
+    background: url(../images/tulipe.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}.bouquet-personnalise-pivoine {
+    background: url(../images/pivoine.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}
+.bouquet-personnalise-cosmos {
+    background: url(../images/cosmos.jpg);
+    padding: 7rem;
+    background-position: center;
+    background-size: cover;
+    border: 8px solid var(--primary);
+    border-radius: 10px;
+}

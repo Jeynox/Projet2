@@ -1,0 +1,105 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	- Bouquet personnalisé
+{% endblock %}
+
+{% block content %}
+	<header class="personal_bouquet_hedaer"></header>
+	<main class='personal_bouquet_main'>
+		<h1 class='h1-bouquetPersonalisé'>
+			Bouquet personnalisé
+		</h1>
+		<form class='bouquet-personnalise-formulaire' action="" method='post'>
+				<h2 class='h2-bouquetPersonalisé'>Forme du bouquet:</h2>
+				<div class='bouquetPersonnalisé-forme'>
+					<div>
+						<div class='bouquet-personnalise-rond'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='forme' value='rond' id='rond'>
+						<label class='bouquet-personnalise-label' for="rond">Rond</label>
+					</div>
+					<div>
+						<div class='bouquet-personnalise-champetre'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='forme' value='champetre' id='champetre'>
+						<label class='bouquet-personnalise-label' for="champetre">Champêtre<label>
+					</div>
+				</div>
+				<h2 class='h2-bouquetPersonalisé'>Choix de la couleur:</h2>
+				<div class='bouquetPersonnalise-couleur'>
+					<div>
+						<div class='bouquet-personnalise-rouge'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='couleur' value='rouge' id='rouge'>
+						<label class='bouquet-personnalise-label' for="rouge">Rouge<label>
+					</div>	
+					<div>
+						<div class='bouquet-personnalise-orange'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='couleur' value='orange' id='orange'>
+						<label class='bouquet-personnalise-label' for="orange">Orange<label>
+					</div>	
+					<div>
+						<div class='bouquet-personnalise-pink'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='couleur' value='pink' id='pink'>
+						<label class='bouquet-personnalise-label' for="pink">Rose<label>
+					</div>	
+					<div>
+						<div class='bouquet-personnalise-jaune'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='couleur' value='jaune' id='jaune'>
+						<label class='bouquet-personnalise-label' for="jaune">Jaune<label>
+					</div>	
+					<div>
+						<div class='bouquet-personnalise-blanc'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='couleur' value='blanc' id='blanc'>
+						<label class='bouquet-personnalise-label' for="blanc">Blanc<label>
+					</div>	
+				</div>
+				<h2 class='h2-bouquetPersonalisé'>Fleur principale:</h2>
+				<p><span uk-icon="icon: info"></span> Le nombre de fleurs par sorte est de 5</p>
+				<div class='bouquetPersonnalise-fleurs'>
+					<div>
+						<div class='bouquet-personnalise-rose'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='fleur1' value='rose' id='rose'>
+						<label class='bouquet-personnalise-label' for="rose">Roses<label>
+					</div>
+					<div>
+						<div class='bouquet-personnalise-dahlia'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='fleur1' value='dahlias' id='dahlias'>
+						<label class='bouquet-personnalise-label' for="dahlias">Dahlias<label>
+					</div>
+				</div>
+				<h2 class='h2-bouquetPersonalisé'>Fleur segondaire:</h2>
+				<p><span uk-icon="icon: info"></span> Le nombre de fleurs par sorte est de 5</p>
+				<div class='bouquetPersonnalise-fleurs-segondaire'>
+					<div>
+						<div class='bouquet-personnalise-tulipe'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='fleur2' value='tulipe' id='tulipe'>
+						<label class='bouquet-personnalise-label' for="tulipe">Tulipes<label>
+					</div>
+					<div>
+						<div class='bouquet-personnalise-pivoine'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='fleur2' value='pivoine' id='pivoine'>
+						<label class='bouquet-personnalise-label' for="pivoine">Pivoines<label>
+					</div>
+					<div>
+						<div class='bouquet-personnalise-cosmos'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='fleur2' value='cosmos' id='cosmos'>
+						<label class='bouquet-personnalise-label' for="cosmos">Cosmos<label>
+					</div>
+				</div>
+				<h2 class='h2-bouquetPersonalisé'>Choix des herbes:</h2>
+				<div class='bouquetPersonnalise-herbe'>
+					<div>
+						<div class='bouquet-personnalise-fougere'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='herbe' value='fougere' id='fougere'>
+						<label class='bouquet-personnalise-label' for="fougere">Fougères<label>
+					</div>
+					<div>
+						<div class='bouquet-personnalise-eucalyptus'></div>
+						<input class='input-bouquet-personnalise' type="radio" name='herbe' value='eucalyptus' id='eucalyptus'>
+						<label class='bouquet-personnalise-label' for="eucalyptus">Eucalyptus<label>
+					</div>
+				</div>
+			<button class='bouquet-personnalise-button' type='submit'>Valider la commande</button>
+		</form>
+	</main>
+{% endblock %}
