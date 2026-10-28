@@ -1,79 +1,107 @@
-# Simple MVC
+# Stras'bouq 🌸
 
-## Description
+Site du fleuriste **Stras'bouq** (Strasbourg) : catalogue, configurateur de bouquet sur mesure,
+formulaire de contact et back office (produits, stock, commandes, messages).
 
-This repository is a simple PHP MVC structure from scratch.
+Réécriture complète de l'ancien projet PHP/Twig (le code d'origine reste dans l'historique git) :
+même identité visuelle — bleu nuit `#132028`, gris `#D9D9D9`, titres manuscrits _Imperial Script_ —
+modernisée, animée, accessible et sécurisée.
 
-It uses some cool vendors/libraries such as Twig and Grumphp.
-For this one, just a simple example where users can choose one of their databases and see tables in it.
+## Stack
 
-## Steps
-
-1. Clone the repo from Github.
-2. Run `composer install`.
-3. Create _config/db.php_ from _config/db.php.dist_ file and add your DB parameters. Don't delete the _.dist_ file, it must be kept.
-
-```php
-define('APP_DB_HOST', 'your_db_host');
-define('APP_DB_NAME', 'your_db_name');
-define('APP_DB_USER', 'your_db_user_wich_is_not_root');
-define('APP_DB_PASSWORD', 'your_db_password');
-```
-
-4. Import _database.sql_ in your SQL server, you can do it manually or use the _migration.php_ script which will import a _database.sql_ file.
-5. Run the internal PHP webserver with `php -S localhost:8000 -t public/`. The option `-t` with `public` as parameter means your localhost will target the `/public` folder.
-6. Go to `localhost:8000` with your favorite browser.
-7. From this starter kit, create your own web application.
-
-### Windows Users
-
-If you develop on Windows, you should edit you git configuration to change your end of line rules with this command :
-
-`git config --global core.autocrlf true`
-
-## Example
-
-An example (a basic list of items) is provided (you can load the _simple-mvc.sql_ file in a test database). The accessible URLs are :
-
--   Home page at [localhost:8000/](localhost:8000/)
--   Items list at [localhost:8000/items](localhost:8000/items)
--   Item details [localhost:8000/items/show?id=:id](localhost:8000/item/show?id=2)
--   Item edit [localhost:8000/items/edit?id=:id](localhost:8000/items/edit?id=2)
--   Item add [localhost:8000/items/add](localhost:8000/items/add)
--   Item deletion [localhost:8000/items/delete?id=:id](localhost:8000/items/delete?id=2)
-
-You can find all these routes declared in the file `src/routes.php`. This is the very same file where you'll add your own new routes to the application.
-
-## How does URL routing work ?
-
-![simple_MVC.png](.tours/simple_MVC.png)
-
-## Ask for a tour !
-
-<img src="./.tours/photo-1632178151697-fd971baa906f.jpg" alt="Guided tour" width="150"/>
-
-We prepare a little guided tour to start with the simple-MVC.
-
-To take it, you need to install the `Code Tour` extension for Visual Studio Code : [Code Tour](https://marketplace.visualstudio.com/items?itemName=vsls-contrib.codetour)
-
-It will give access to a new menu on your IDE where you'll find the different tours about the simple-MVC. Click on play to start one :
-
-![menu](.tours/code_tour_menu.png)
-
-## Run it on docker
-
-If you don't know what is docker, skip this chapter. ;)
-
-Otherwise, you probably see, this project is ready to use with docker.
-
-To build the image, go into the project directory and in your CLI type:
+| Partie | Techno |
+| --- | --- |
+| Front + back office | SvelteKit 3 / Svelte 5 (runes), SCSS, adapter-node |
+| API | Node 24, Express 5, Apollo Server (GraphQL), TypeORM |
+| Base | PostgreSQL 18 |
+| Images | ré-encodées en WebP par `sharp` (métadonnées supprimées) |
+| Conteneurs | Docker Compose (3 services durcis) |
 
 ```
-docker build -t simple-mvc-container .
+apps/
+  api/   API GraphQL (entités, migrations, seed, uploads)
+  web/   site public + back office /admin
+compose.yaml       stack complète
+compose.dev.yaml   PostgreSQL seul pour le dev
 ```
 
-then, run it to open it on your localhot :
+## Lancer en local avec Docker
 
+1. Copier le modèle d'environnement et remplir chaque valeur :
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Secrets : `openssl rand -hex 32` (ou `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`).
+   `ADMIN_EMAIL` / `ADMIN_PASSWORD` (12 caractères min.) créent le compte du back office au premier démarrage.
+
+2. Démarrer :
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. Ouvrir <http://localhost:3000> — back office sur <http://localhost:3000/admin>.
+
+Avec `SEED_DEMO=true`, la base est remplie automatiquement au premier démarrage : 9 produits avec
+photos, une commande et un message de démonstration. Les migrations s'appliquent toutes seules.
+
+Repartir de zéro (efface base et images) : `docker compose down -v`.
+
+## Développement sans Docker pour le code
+
+```bash
+npm run install:all
+npm run db:up              # PostgreSQL seul (compose.dev.yaml)
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
+npm run dev:api            # http://localhost:4000/graphql
+npm run dev:web            # http://localhost:5173
 ```
-docker run -i -t --name simple-mvc  -p 80:80 simple-mvc-container
-```
+
+Qualité : `npm run check` (typage), `npm test`, et `npm run lint --prefix apps/web`.
+
+## Fonctionnalités
+
+**Site public** — accueil (promotions & nouveautés, présentation de Vincent & Yavuz), catalogue
+filtrable (fleurs, bouquets, vases, coffrets, feuillages), fiches produit, configurateur de bouquet en
+5 étapes avec récapitulatif en direct, contact avec horaires, mentions légales, sitemap.
+
+**Back office** — tableau de bord (compteurs, bouquets à préparer, messages non lus, stocks faibles),
+CRUD produits avec upload d'image, réassort rapide du stock, suivi des commandes par statut,
+messagerie (lu / non lu, répondre, supprimer).
+
+**Animations** — apparition au défilement en CSS pur (`animation-timeline: view()`), transitions de
+page (View Transitions API), micro-interactions. Toutes désactivées si l'utilisateur demande moins
+d'animations (`prefers-reduced-motion`).
+
+**Accessibilité** — HTML sémantique, lien d'évitement, navigation clavier complète, focus visibles,
+vrais boutons radio dans le configurateur, libellés sur tous les champs, contrastes AA.
+
+## Sécurité
+
+- **Aucun secret dans le dépôt** : tout passe par `.env` (ignoré par git et par Docker). L'API refuse
+  de démarrer en production avec un secret manquant ou trop court.
+- **Réseau** : seul le site est publié, sur `127.0.0.1`. L'API n'est joignable que par le front
+  (clé interne partagée), la base uniquement par l'API (réseau Docker `internal`).
+- **Conteneurs** : système de fichiers en lecture seule, utilisateur non-root, `cap_drop: ALL`,
+  `no-new-privileges`.
+- **Auth admin** : mots de passe bcrypt, JWT signé dans un cookie `httpOnly` / `SameSite=Strict`
+  (`__Host-` en HTTPS), limitation des tentatives par IP et par compte, temps de réponse constant.
+- **Formulaires publics** : validation stricte côté API (listes blanches, longueurs bornées),
+  limitation des envois par IP, champ piège anti-robots, protection CSRF de SvelteKit.
+- **En-têtes** : CSP stricte avec nonce (aucun script tiers, polices auto-hébergées), HSTS,
+  `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`…
+- **Uploads** : format vérifié par signature binaire, ré-encodage WebP, noms aléatoires, taille et
+  dimensions bornées, servis avec une CSP `sandbox`.
+- **GraphQL** : introspection coupée en production, profondeur / taille / alias des requêtes limités,
+  aucune erreur interne exposée.
+- **CI** : `npm audit`, typage, lint, tests et build des images à chaque push.
+
+## Production
+
+En ligne sur <https://strasbouq.daniellemosjose.fr> (VPS, Caddy + Docker rootless) : procédure dans
+[deploy/README.md](deploy/README.md), surcouche `compose.prod.yaml`.
+
+Reste à faire : compléter les mentions légales (raison sociale, SIRET, hébergeur).

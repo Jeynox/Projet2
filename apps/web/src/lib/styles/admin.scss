@@ -1,0 +1,314 @@
+@use 'tokens' as *;
+
+// Styles partagés du back office (chargés par le layout admin uniquement).
+
+.admin {
+	background: #f6f4f1;
+	min-height: 100vh;
+	font-size: 0.98rem;
+}
+
+.page-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 28px;
+
+	h1 {
+		font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
+	}
+
+	p {
+		margin-top: 4px;
+		color: $ink-soft;
+	}
+}
+
+.panel {
+	padding: clamp(18px, 2.5vw, 28px);
+	border: 1px solid $line-soft;
+	border-radius: $radius;
+	background: $surface;
+	box-shadow: $shadow-sm;
+
+	> h2 {
+		margin-bottom: 18px;
+		font-size: 1.3rem;
+	}
+}
+
+.panel-grid {
+	display: grid;
+	gap: 20px;
+
+	@include from($bp-lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+// Tableaux : lignes en cartes sur mobile
+.table {
+	width: 100%;
+	border-collapse: collapse;
+
+	th {
+		padding: 10px 12px;
+		border-bottom: 1px solid $line;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-align: left;
+		text-transform: uppercase;
+		color: $ink-soft;
+	}
+
+	td {
+		padding: 12px;
+		border-bottom: 1px solid $line-soft;
+		vertical-align: middle;
+	}
+
+	tbody tr {
+		transition: background-color 0.2s;
+
+		&:hover {
+			background: $blush-soft;
+		}
+	}
+
+	.num {
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+	}
+
+	@include until($bp-md) {
+		thead {
+			@include visually-hidden;
+		}
+
+		tr {
+			display: grid;
+			gap: 4px;
+			padding: 14px 0;
+			border-bottom: 1px solid $line;
+		}
+
+		td {
+			display: flex;
+			justify-content: space-between;
+			gap: 12px;
+			padding: 4px 0;
+			border: 0;
+
+			&[data-label]::before {
+				content: attr(data-label);
+				font-weight: 600;
+				color: $ink-soft;
+			}
+		}
+
+		.num {
+			text-align: left;
+		}
+	}
+}
+
+.thumb {
+	width: 52px;
+	height: 52px;
+	border-radius: $radius-xs;
+	object-fit: cover;
+	background: $blush-soft;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 3px 11px;
+	border-radius: 999px;
+	font-size: 0.8rem;
+	font-weight: 600;
+	white-space: nowrap;
+	background: $line-soft;
+	color: $ink-soft;
+
+	&--ok {
+		background: $sage-soft;
+		color: #2f4a2c;
+	}
+
+	&--warn {
+		background: $amber-soft;
+		color: $amber;
+	}
+
+	&--danger {
+		background: $danger-soft;
+		color: $danger;
+	}
+
+	&--rose {
+		background: $blush-soft;
+		color: $rose-dark;
+	}
+
+	&--ink {
+		background: $ink;
+		color: #fff;
+	}
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+
+	form {
+		display: contents;
+	}
+}
+
+.icon-btn {
+	display: inline-grid;
+	place-items: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 12px;
+	border: 1px solid $line;
+	border-radius: 999px;
+	background: $surface;
+	font-size: 0.88rem;
+	font-weight: 550;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background-color 0.2s,
+		border-color 0.2s,
+		color 0.2s;
+
+	&:hover {
+		border-color: $ink;
+	}
+
+	&--danger:hover {
+		border-color: $danger;
+		background: $danger-soft;
+		color: $danger;
+	}
+}
+
+// Formulaires du back office
+
+.form-grid {
+	display: grid;
+	gap: 20px;
+
+	@include from($bp-md) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+
+	&--full {
+		grid-column: 1 / -1;
+	}
+
+	> label {
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	input:not([type='checkbox'], [type='file']),
+	select,
+	textarea {
+		width: 100%;
+		min-height: 44px;
+		padding: 10px 14px;
+		border: 1.5px solid $line;
+		border-radius: $radius-xs;
+		background: $surface;
+		transition:
+			border-color 0.2s,
+			box-shadow 0.2s;
+
+		&:focus {
+			outline: none;
+			border-color: $rose;
+			box-shadow: 0 0 0 4px rgba($rose, 0.12);
+		}
+	}
+
+	textarea {
+		min-height: 120px;
+		resize: vertical;
+	}
+
+	input[type='file'] {
+		font-size: 0.9rem;
+	}
+}
+
+.hint {
+	font-size: 0.82rem;
+	color: $ink-soft;
+}
+
+.check {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 500;
+	cursor: pointer;
+
+	input {
+		width: 18px;
+		height: 18px;
+		accent-color: $rose;
+	}
+}
+
+.form-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 8px;
+}
+
+.flash {
+	margin-bottom: 20px;
+	padding: 12px 16px;
+	border-radius: $radius-sm;
+	font-weight: 500;
+	animation: flash-in 0.4s $ease-out both;
+
+	&--error {
+		background: $danger-soft;
+		color: $danger;
+	}
+
+	&--success {
+		background: $sage-soft;
+		color: #2f4a2c;
+	}
+}
+
+@keyframes flash-in {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+}
+
+.empty-state {
+	padding: 40px 16px;
+	text-align: center;
+	color: $ink-soft;
+}

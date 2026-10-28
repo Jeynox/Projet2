@@ -1,7 +1,41 @@
-/vendor/
-/temp/*
-.phpcs-cache
-*.cache
-db.php
+# Dépendances
+node_modules
+
+# Secrets et configuration locale (seuls les modèles .env.example sont versionnés)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
+
+# Builds
+dist
+build
+.svelte-kit
+.output
+
+# Uploads locaux de l'API
+uploads
+
+# Logs, caches, couverture
+*.log
+npm-debug.log*
+coverage
+.cache
+.eslintcache
+
+# OS / éditeur
+.DS_Store
+Thumbs.db
 .idea
-.vscode
+.vscode/*
+!.vscode/extensions.json
+
+# Réglages Claude Code propres à cette machine
+.claude/settings.local.json
+
+# Vite
+vite.config.*.timestamp-*

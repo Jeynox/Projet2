@@ -1,0 +1,79 @@
+# Stack complète : docker compose up -d --build
+# Variables lues dans .env (voir .env.example) — aucun secret dans ce fichier.
+name: strasbouq
+
+x-hardening: &hardening
+  read_only: true
+  tmpfs:
+    - /tmp
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: strasbouq
+      POSTGRES_USER: strasbouq
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?à définir dans .env}
+    volumes:
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U strasbouq -d strasbouq']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [backend]
+    # Aucun port publié : la base n'est joignable que par l'API.
+
+  api:
+    <<: *hardening
+    build: ./apps/api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://strasbouq:${POSTGRES_PASSWORD}@db:5432/strasbouq
+      JWT_SECRET: ${JWT_SECRET:?à définir dans .env}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:?à définir dans .env}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      SEED_DEMO: ${SEED_DEMO:-false}
+    volumes:
+      - uploads:/app/uploads
+    networks: [backend, frontend]
+    # Aucun port publié : l'API n'est joignable que par le front (réseau Docker interne).
+
+  web:
+    <<: *hardening
+    build:
+      context: ./apps/web
+      args:
+        ORIGIN: ${ORIGIN:-http://localhost:3000}
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      API_URL: http://api:4000
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:?à définir dans .env}
+      # URL publique : canoniques, sitemap (jamais déduite de l'en-tête Host)
+      SITE_URL: ${SITE_URL:-http://localhost:3000}
+    ports:
+      # Écoute seulement sur la machine locale ; en prod, un reverse proxy HTTPS se place devant.
+      - '127.0.0.1:${WEB_PORT:-3000}:3000'
+    networks: [frontend]
+
+networks:
+  # La base n'est pas sur le même réseau que le front : seul l'API fait le pont.
+  backend:
+    internal: true
+  frontend:
+
+volumes:
+  db-data:
+  uploads:

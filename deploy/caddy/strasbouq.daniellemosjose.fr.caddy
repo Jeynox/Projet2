@@ -1,0 +1,33 @@
+# Bloc à ajouter au Caddyfile du serveur (/etc/caddy/Caddyfile).
+# Caddy obtient et renouvelle seul le certificat HTTPS (Let's Encrypt) ; http:// redirige vers https://.
+strasbouq.daniellemosjose.fr {
+	encode zstd gzip
+
+	# Taille maximale d'une requête (photo produit : 8 Mo + marge)
+	request_body {
+		max_size 12MB
+	}
+
+	header {
+		-Server
+		-Via
+		-X-Powered-By
+		Strict-Transport-Security "max-age=63072000; includeSubDomains"
+	}
+
+	# Caddy remplace tout X-Forwarded-For venu du client par sa vraie IP (aucun proxy en amont).
+	reverse_proxy 127.0.0.1:3300 {
+		transport http {
+			dial_timeout 5s
+			response_header_timeout 30s
+		}
+	}
+
+	log {
+		output file /var/log/caddy/strasbouq.log {
+			roll_size 10MiB
+			roll_keep 5
+		}
+		format json
+	}
+}

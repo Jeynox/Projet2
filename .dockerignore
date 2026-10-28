@@ -1,0 +1,14 @@
+# Les images sont construites depuis apps/api et apps/web (chacun a son .dockerignore).
+# Garde-fou si un build part de la racine : ni secrets, ni dépendances, ni historique git.
+**/node_modules
+**/dist
+**/build
+**/.svelte-kit
+**/uploads
+**/.env
+**/.env.*
+!**/.env.example
+.git
+.github
+.claude
+*.md

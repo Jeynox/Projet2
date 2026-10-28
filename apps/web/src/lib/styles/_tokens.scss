@@ -1,0 +1,90 @@
+// Palette héritée du site d'origine (bleu nuit #132028, gris #D9D9D9) + rose poudré des fleurs.
+$ink: #132028;
+$ink-2: #1c2e39;
+$ink-3: #2a3f4b;
+$ink-soft: #4a5a63;
+$mist: #d9d9d9;
+$paper: #fbf8f5;
+$surface: #ffffff;
+$line: #e7e1db;
+$line-soft: #f0ebe6;
+
+$blush: #f3d3d9;
+$blush-soft: #fbeef1;
+// Rose foncé : 5,6:1 sur blanc (texte et boutons accessibles)
+$rose: #a83f61;
+$rose-dark: #8a2f4d;
+$sage: #5f7a5b;
+$sage-soft: #e7eee5;
+$amber: #9a6a12;
+$amber-soft: #fbf1dc;
+$danger: #b42318;
+$danger-soft: #fdecea;
+
+$font-script: 'Imperial Script', 'Brush Script MT', cursive;
+$font-serif: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+$font-sans:
+	'Roboto Variable',
+	system-ui,
+	-apple-system,
+	'Segoe UI',
+	sans-serif;
+
+$radius: 20px;
+$radius-sm: 12px;
+$radius-xs: 8px;
+$shadow-sm:
+	0 1px 2px rgba(19, 32, 40, 0.06),
+	0 2px 8px rgba(19, 32, 40, 0.05);
+$shadow: 0 10px 30px -12px rgba(19, 32, 40, 0.25);
+$shadow-lg: 0 30px 60px -20px rgba(19, 32, 40, 0.35);
+
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+$bp-sm: 640px;
+$bp-md: 860px;
+$bp-lg: 1100px;
+$container: 1200px;
+
+@mixin from($bp) {
+	@media (min-width: $bp) {
+		@content;
+	}
+}
+
+@mixin until($bp) {
+	@media (max-width: ($bp - 0.02px)) {
+		@content;
+	}
+}
+
+@mixin container($max: $container) {
+	width: 100%;
+	max-width: $max;
+	margin-inline: auto;
+	padding-inline: clamp(16px, 4vw, 40px);
+}
+
+@mixin focus-ring($color: $rose) {
+	outline: 3px solid $color;
+	outline-offset: 3px;
+}
+
+@mixin motion {
+	@media (prefers-reduced-motion: no-preference) {
+		@content;
+	}
+}
+
+@mixin visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}

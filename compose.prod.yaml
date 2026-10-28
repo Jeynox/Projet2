@@ -1,0 +1,38 @@
+# Surcouche de production pour https://strasbouq.daniellemosjose.fr
+#
+# Le serveur a un Caddy système (HTTPS Let's Encrypt) qui transmet le sous-domaine au site,
+# publié seulement sur 127.0.0.1:3300 (bloc : deploy/caddy/strasbouq.daniellemosjose.fr.caddy).
+#
+# Images construites sur le poste (pas sur le serveur, pour ne pas charger la machine) :
+#   docker compose -f compose.yaml -f compose.prod.yaml build
+# puis lancées sur le serveur (Docker rootless) :
+#   docker compose -f compose.yaml -f compose.prod.yaml up -d --no-build
+# Procédure complète : deploy/README.md
+services:
+  db:
+    mem_limit: 256m
+
+  api:
+    image: strasbouq/api:prod
+    mem_limit: 256m
+    pids_limit: 128
+    environment:
+      # Catalogue seulement : aucune commande ni message fictif en ligne.
+      SEED_DEMO: ${SEED_DEMO:-catalogue}
+
+  web:
+    image: strasbouq/web:prod
+    build:
+      args:
+        # Origine publique figée au build : la protection CSRF compare l'en-tête Origin à cette valeur.
+        ORIGIN: https://strasbouq.daniellemosjose.fr
+    mem_limit: 256m
+    pids_limit: 128
+    environment:
+      SITE_URL: https://strasbouq.daniellemosjose.fr
+      # Vraie IP du visiteur (limites de tentatives et d'envois) : entrée ajoutée par Caddy.
+      ADDRESS_HEADER: X-Forwarded-For
+      XFF_DEPTH: 1
+    # Joignable uniquement par le Caddy de l'hôte.
+    ports: !override
+      - '127.0.0.1:3300:3000'

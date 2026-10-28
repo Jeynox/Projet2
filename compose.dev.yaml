@@ -1,0 +1,18 @@
+# Base PostgreSQL seule, pour le dev local avec `npm run dev` (identifiants de dev uniquement) :
+#   docker compose -f compose.dev.yaml up -d
+name: strasbouq-dev
+
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: strasbouq
+      POSTGRES_USER: strasbouq
+      POSTGRES_PASSWORD: strasbouq
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - db-dev:/var/lib/postgresql
+
+volumes:
+  db-dev:
