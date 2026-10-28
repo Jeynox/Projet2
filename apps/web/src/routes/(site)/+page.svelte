@@ -173,13 +173,36 @@
 	.hero {
 		position: relative;
 		isolation: isolate;
-		display: flex;
+		// Deux rangées : le contenu centré verticalement, puis l'indicateur de défilement,
+		// qui garde sa place et ne peut plus être recouvert par les boutons.
+		display: grid;
+		grid-template-rows: 1fr auto;
 		align-items: center;
+		gap: 24px;
 		min-height: min(100svh, 920px);
-		padding: 140px 0 110px;
+		// En bas : place pour les cartes « promesses » qui chevauchent le hero (56px)
+		padding: 108px 0 88px;
 		overflow: hidden;
 		background: $ink;
 		color: #fff;
+
+		// Petits téléphones : espacements resserrés pour garder l'indicateur dans le premier écran
+		@include until($bp-md) {
+			gap: 16px;
+			padding-top: 96px;
+
+			.hero__title {
+				margin-top: 12px;
+			}
+
+			.hero__lead {
+				margin-top: 16px;
+			}
+
+			.hero__actions {
+				margin-top: 24px;
+			}
+		}
 
 		&::after {
 			content: '';
@@ -212,6 +235,13 @@
 
 		&__inner {
 			@include container(1320px);
+
+			// Mobile : tout est centré, boutons empilés de même largeur
+			@include until($bp-md) {
+				display: grid;
+				justify-items: center;
+				text-align: center;
+			}
 		}
 
 		&__eyebrow {
@@ -225,8 +255,13 @@
 		&__title {
 			max-width: 14ch;
 			margin-top: 18px;
-			font-size: clamp(2.5rem, 1.3rem + 4.6vw, 5rem);
+			// Bornée aussi par la hauteur d'écran : sur un portable, l'indicateur de défilement reste visible
+			font-size: clamp(2.5rem, min(1.3rem + 4.6vw, 1rem + 6.2vh), 5rem);
 			font-weight: 380;
+
+			@include until($bp-md) {
+				margin-inline: auto;
+			}
 
 			.script {
 				display: block;
@@ -257,6 +292,11 @@
 			gap: 14px;
 			margin-top: 34px;
 
+			@include until($bp-md) {
+				flex-direction: column;
+				width: min(100%, 320px);
+			}
+
 			@include motion {
 				animation: fade-up 1s 0.5s $ease-out both;
 			}
@@ -267,15 +307,25 @@
 		}
 
 		&__scroll {
-			position: absolute;
-			left: 50%;
-			// Au-dessus des cartes qui chevauchent le bas du hero
-			bottom: 84px;
+			position: relative;
+			justify-self: center;
 			width: 28px;
 			height: 46px;
-			margin-left: -14px;
 			border: 1.5px solid rgba(255, 255, 255, 0.6);
 			border-radius: 999px;
+			transition: border-color 0.25s;
+
+			&:hover {
+				border-color: #fff;
+			}
+
+			&:focus-visible {
+				outline-color: $blush;
+			}
+
+			@include motion {
+				animation: fade-up 1s 0.8s $ease-out both;
+			}
 
 			span {
 				position: absolute;
@@ -331,6 +381,7 @@
 		border-radius: $radius;
 		background: $surface;
 		box-shadow: $shadow;
+		text-align: center;
 
 		h2 {
 			font-size: 1.3rem;

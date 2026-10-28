@@ -23,6 +23,12 @@
 	afterNavigate(() => {
 		open = false;
 	});
+
+	// Menu mobile ouvert : la page derrière ne défile plus
+	$effect(() => {
+		document.documentElement.classList.toggle('menu-open', open);
+		return () => document.documentElement.classList.remove('menu-open');
+	});
 </script>
 
 <svelte:window
@@ -80,16 +86,25 @@
 		inset: 0 0 auto;
 		z-index: 50;
 		color: #fff;
-		// Verre dépoli de l'ancienne barre de navigation, en plus discret
-		background: rgba($ink, 0.18);
-		backdrop-filter: blur(16px) saturate(140%);
-		-webkit-backdrop-filter: blur(16px) saturate(140%);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-		transition:
-			background-color 0.35s $ease-out,
-			border-color 0.35s;
 
-		&--solid {
+		// Verre dépoli de l'ancienne barre de navigation, en plus discret. Il est porté par un
+		// pseudo-élément : un backdrop-filter sur le header lui-même deviendrait le bloc conteneur
+		// du menu mobile (position: fixed) et l'enfermerait dans la hauteur de la barre.
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			background: rgba($ink, 0.18);
+			backdrop-filter: blur(16px) saturate(140%);
+			-webkit-backdrop-filter: blur(16px) saturate(140%);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+			transition:
+				background-color 0.35s $ease-out,
+				border-color 0.35s;
+		}
+
+		&--solid::before {
 			background: rgba($ink, 0.92);
 			border-color: transparent;
 		}
@@ -244,10 +259,16 @@
 		.nav {
 			position: fixed;
 			inset: 0;
+			z-index: 1;
 			flex-direction: column;
 			justify-content: center;
 			gap: 40px;
-			background: rgba($ink, 0.97);
+			padding: 96px 24px 40px;
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			background:
+				radial-gradient(ellipse at 20% 0%, rgba($blush, 0.12), transparent 60%),
+				radial-gradient(ellipse at 90% 100%, rgba($sage, 0.18), transparent 55%), $ink;
 			opacity: 0;
 			visibility: hidden;
 			transition:
@@ -284,6 +305,14 @@
 						transition-delay: #{0.05 + $i * 0.05}s;
 					}
 				}
+			}
+		}
+
+		// Sur petits écrans très bas (paysage), le menu part du haut et défile
+		@media (max-height: 520px) {
+			.nav {
+				justify-content: flex-start;
+				gap: 24px;
 			}
 		}
 	}

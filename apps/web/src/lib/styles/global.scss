@@ -15,6 +15,11 @@ html {
 	@media (prefers-reduced-motion: reduce) {
 		scroll-behavior: auto;
 	}
+
+	// Menu mobile ouvert (SiteHeader)
+	&.menu-open {
+		overflow: hidden;
+	}
 }
 
 body {
