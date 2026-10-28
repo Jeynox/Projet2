@@ -369,10 +369,14 @@
 		z-index: 1;
 		display: grid;
 		gap: 16px;
-		margin-top: -56px;
+		margin: -56px auto 0;
+		// Plus étroit que le reste de la page : le bloc reste centré avec de l'air de chaque côté
+		max-width: 1000px;
+		padding-inline: clamp(32px, 8vw, 40px);
 
 		@include from($bp-md) {
 			grid-template-columns: repeat(3, 1fr);
+			gap: 20px;
 		}
 	}
 
